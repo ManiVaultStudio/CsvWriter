@@ -286,7 +286,7 @@ WriterPlugin* CsvWriterFactory::produce()
 
 QIcon CsvWriterFactory::getIcon(const QColor& color /*= Qt::black*/) const
 {
-    return Application::getIconFont("FontAwesome").getIcon("database", color);
+    return Application::getIconFont("FontAwesome").getIcon("file-csv", color);
 }
 
 DataTypes CsvWriterFactory::supportedDataTypes() const
@@ -306,7 +306,7 @@ PluginTriggerActions CsvWriterFactory::getPluginTriggerActions(const hdps::Datas
 
 
         if (datasets.count() >= 1) {
-            auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "ExtCsvWriter", "Export dataset to CSV file", getIcon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
+            auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "CsvWriter", "Export dataset to CSV file", getIcon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
                 for (auto dataset : datasets)
                     getPluginInstance(dataset);
                 });

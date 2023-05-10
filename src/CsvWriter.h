@@ -49,7 +49,7 @@ class CsvWriterFactory : public WriterPluginFactory
 {
     Q_INTERFACES(hdps::plugin::WriterPluginFactory hdps::plugin::PluginFactory)
         Q_OBJECT
-        Q_PLUGIN_METADATA(IID   "nl.lumc.ExtCsvExporter"
+        Q_PLUGIN_METADATA(IID   "nl.lumc.CsvWriter"
             FILE  "CsvWriter.json")
 
 public:
