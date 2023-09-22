@@ -25,9 +25,16 @@ set(SOURCES
     src/CsvWriter.json
 )
 
+set(PLUGIN_MOC_HEADERS
+    src/CsvWriter.h
+)
+
 source_group( Plugin FILES ${SOURCES})
 
 add_library(${PROJECT} SHARED ${SOURCES})
+
+qt_wrap_cpp(CSVWRITER_MOC ${PLUGIN_MOC_HEADERS} TARGET ${PROJECT})
+target_sources(${PROJECT} PRIVATE ${CSVWRITER_MOC})
 
 target_include_directories(${PROJECT} PRIVATE "${INSTALL_DIR}/$<CONFIGURATION>/include/")
 
