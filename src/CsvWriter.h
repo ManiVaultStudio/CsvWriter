@@ -4,9 +4,9 @@
 
 #include <Dataset.h>
 
-using namespace hdps::plugin;
-using namespace hdps::gui;
-using namespace hdps::util;
+using namespace mv::plugin;
+using namespace mv::gui;
+using namespace mv::util;
 
 
 
@@ -47,7 +47,7 @@ public:
 
 class CsvWriterFactory : public WriterPluginFactory
 {
-    Q_INTERFACES(hdps::plugin::WriterPluginFactory hdps::plugin::PluginFactory)
+    Q_INTERFACES(mv::plugin::WriterPluginFactory mv::plugin::PluginFactory)
         Q_OBJECT
         Q_PLUGIN_METADATA(IID   "nl.lumc.CsvWriter"
             FILE  "CsvWriter.json")
@@ -65,12 +65,12 @@ public:
 
     WriterPlugin* produce() override;
 
-    hdps::DataTypes supportedDataTypes() const override;
+    mv::DataTypes supportedDataTypes() const override;
 
     /**
      * Get plugin trigger actions given \p datasets
      * @param datasets Vector of input datasets
      * @return Vector of plugin trigger actions
      */
-    PluginTriggerActions getPluginTriggerActions(const hdps::Datasets& datasets) const override;
+    PluginTriggerActions getPluginTriggerActions(const mv::Datasets& datasets) const override;
 };

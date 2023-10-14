@@ -13,7 +13,7 @@
 
 Q_PLUGIN_METADATA(IID "nl.BioVault.CsvSaverPlugin")
 
-using namespace hdps;
+using namespace mv;
 
 
 CsvWriter::CsvWriter(const PluginFactory* factory) :
@@ -298,7 +298,7 @@ DataTypes CsvWriterFactory::supportedDataTypes() const
     return supportedTypes;
 }
 
-PluginTriggerActions CsvWriterFactory::getPluginTriggerActions(const hdps::Datasets& datasets) const
+PluginTriggerActions CsvWriterFactory::getPluginTriggerActions(const mv::Datasets& datasets) const
 {
     PluginTriggerActions pluginTriggerActions;
 
