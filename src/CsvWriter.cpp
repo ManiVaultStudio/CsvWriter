@@ -73,9 +73,9 @@ void CsvWriter::writeData()
         {
         	QApplication::processEvents();
 
-            points->getDataHierarchyItem().setTaskName("Saving");
-            points->getDataHierarchyItem().setTaskRunning();
-            points->getDataHierarchyItem().setTaskDescription(QString("Saving data"));
+            points->getDatasetTask().setName("Saving");
+            points->getDatasetTask().setRunning();
+            points->getDatasetTask().setProgressDescription(QString("Saving data"));
 
 
             QFile file(fileName);
@@ -145,7 +145,7 @@ void CsvWriter::writeData()
                         ++pointIndex;
 
                         if (pointIndex % 10 == 0) {
-                            points->getDataHierarchyItem().setTaskProgress(static_cast<float>(pointIndex) / static_cast<float>(points->getNumPoints()));
+                            points->getDatasetTask().setProgress(static_cast<float>(pointIndex) / static_cast<float>(points->getNumPoints()));
 
                             QApplication::processEvents();
                         }
@@ -154,8 +154,8 @@ void CsvWriter::writeData()
 
                 output.flush();
                 file.close();
-                points->getDataHierarchyItem().setTaskProgress(1.0f);
-                points->getDataHierarchyItem().setTaskFinished();
+                points->getDatasetTask().setProgress(1.0f);
+                points->getDatasetTask().setFinished();
             }
 
             if(dimensionProperties.size())
