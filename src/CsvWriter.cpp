@@ -73,9 +73,11 @@ void CsvWriter::writeData()
         {
         	QApplication::processEvents();
 
-            points->getDatasetTask().setName("Saving");
-            points->getDatasetTask().setRunning();
-            points->getDatasetTask().setProgressDescription(QString("Saving data"));
+            auto& task = points->getTask();
+
+            task.setName("Saving");
+            task.setRunning();
+            task.setProgressDescription(QString("Saving data"));
 
 
             QFile file(fileName);
@@ -127,7 +129,7 @@ void CsvWriter::writeData()
                 }
 
                 output << "\n";
-                points->visitData([this, &output, &points, &dimensionNames, &sampleNames, seperatorChar, replaceChar ](auto pointData) {
+                points->visitData([this, &output, &points, &dimensionNames, &sampleNames, seperatorChar, replaceChar, &task](auto pointData) {
                     std::uint64_t pointIndex = 0;
 
                     for (auto point : pointData) {
@@ -145,7 +147,7 @@ void CsvWriter::writeData()
                         ++pointIndex;
 
                         if (pointIndex % 10 == 0) {
-                            points->getDatasetTask().setProgress(static_cast<float>(pointIndex) / static_cast<float>(points->getNumPoints()));
+                            task.setProgress(static_cast<float>(pointIndex) / static_cast<float>(points->getNumPoints()));
 
                             QApplication::processEvents();
                         }
@@ -154,8 +156,8 @@ void CsvWriter::writeData()
 
                 output.flush();
                 file.close();
-                points->getDatasetTask().setProgress(1.0f);
-                points->getDatasetTask().setFinished();
+                task.setProgress(1.0f);
+                task.setFinished();
             }
 
             if(dimensionProperties.size())
