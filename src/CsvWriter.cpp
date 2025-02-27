@@ -303,7 +303,7 @@ PluginTriggerActions CsvWriterFactory::getPluginTriggerActions(const mv::Dataset
 
 
         if (datasets.count() >= 1) {
-            auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "CsvWriter", "Export dataset to CSV file", getIcon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
+            auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "CsvWriter", "Export dataset to CSV file", icon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
                 for (auto dataset : datasets)
                     getPluginInstance(dataset);
                 });
