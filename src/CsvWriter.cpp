@@ -286,11 +286,6 @@ WriterPlugin* CsvWriterFactory::produce()
     return new CsvWriter(this);
 }
 
-QIcon CsvWriterFactory::getIcon(const QColor& color /*= Qt::black*/) const
-{
-    return Application::getIconFont("FontAwesome").getIcon("file-csv", color);
-}
-
 DataTypes CsvWriterFactory::supportedDataTypes() const
 {
     DataTypes supportedTypes;
