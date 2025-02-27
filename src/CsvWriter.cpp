@@ -281,6 +281,11 @@ void CsvWriter::writeData()
 // Factory
 // =============================================================================
 
+CsvWriterFactory::CsvWriterFactory()
+{
+    setIconByName("file-csv");
+}
+
 WriterPlugin* CsvWriterFactory::produce()
 {
     return new CsvWriter(this);
