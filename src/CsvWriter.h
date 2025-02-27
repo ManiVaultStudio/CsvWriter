@@ -53,7 +53,7 @@ class CsvWriterFactory : public WriterPluginFactory
             FILE  "CsvWriter.json")
 
 public:
-    CsvWriterFactory(void) {}
+    CsvWriterFactory();
     ~CsvWriterFactory(void) override {}
 
     WriterPlugin* produce() override;
