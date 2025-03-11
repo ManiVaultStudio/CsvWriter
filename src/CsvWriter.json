@@ -1,6 +1,6 @@
 {
     "name" : "Extended CSV Exporter",
     "menuName" : "CSV (.csv)",
-    "version" : "1",
+    "version" : "1.4",
     "dependencies" : ["Points",  "Cluster"]
 }
