@@ -11,10 +11,9 @@
 #include <QFile>
 #include <QTextStream>
 
-Q_PLUGIN_METADATA(IID "nl.BioVault.CsvSaverPlugin")
+Q_PLUGIN_METADATA(IID "studio.manivault.CsvSaverPlugin")
 
 using namespace mv;
-
 
 CsvWriter::CsvWriter(const PluginFactory* factory) :
     WriterPlugin(factory)
@@ -23,17 +22,18 @@ CsvWriter::CsvWriter(const PluginFactory* factory) :
 
 void CsvWriter::writeData()
 {
-
     auto inputDataset = getInputDataset<DatasetImpl>();
     if (!inputDataset.isValid())
         return;
-    // Let the user chose the save path
-    QSettings settings(QLatin1String{ "HDPS" }, QLatin1String{ "Plugins/" } + getKind());
-    const QLatin1String directoryPathKey("directoryPath");
-    const auto directoryPath = settings.value(directoryPathKey).toString() + "/";
-    
+    // Let the user choose the save path
+    QString registryEntry = "directoryPath";
+    const auto directoryPath = getSetting(registryEntry, "").toString();
+
     QString fileName = QFileDialog::getSaveFileName(
-        nullptr, tr("Save data set"), directoryPath + inputDataset->getGuiName() + ".csv", tr("CSV file (*.csv);;All Files (*)"));
+        nullptr, 
+        tr("Save data set"), 
+        directoryPath + inputDataset->getGuiName() + ".csv",
+        tr("CSV file (*.csv);;All Files (*)"));
 
     // Only continue when the dialog has not been not canceled and the file name is non-empty.
     if (fileName.isNull() || fileName.isEmpty())
@@ -44,7 +44,7 @@ void CsvWriter::writeData()
     else
     {
         // store the directory name
-        settings.setValue(directoryPathKey, QFileInfo(fileName).absolutePath());
+        setSetting(registryEntry, QFileInfo(fileName).absolutePath());
     }
 
     QVariantList sampleNames;
@@ -59,11 +59,6 @@ void CsvWriter::writeData()
                 d = d->getParent();
         }
     }
-   
-
-    
-    
-
     
 	if (inputDataset->getDataType() == PointType)
     {
@@ -306,15 +301,14 @@ PluginTriggerActions CsvWriterFactory::getPluginTriggerActions(const mv::Dataset
         return dynamic_cast<CsvWriter*>(plugins().requestPlugin(getKind(), { dataset }));
     };
 
+    if (datasets.count() >= 1) {
+        auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "CsvWriter", "Export dataset to CSV file", icon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
+            for (auto dataset : datasets)
+                getPluginInstance(dataset);
+            });
 
-        if (datasets.count() >= 1) {
-            auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "CsvWriter", "Export dataset to CSV file", icon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
-                for (auto dataset : datasets)
-                    getPluginInstance(dataset);
-                });
-
-            pluginTriggerActions << pluginTriggerAction;
-        }
+        pluginTriggerActions << pluginTriggerAction;
+    }
 
     return pluginTriggerActions;
 }
