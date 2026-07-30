@@ -1,0 +1,10 @@
+{
+    "name" : "Extended CSV Exporter",
+    "menuName" : "CSV (.csv)",
+    "version" :  {
+        "plugin" : "1.0.0",
+        "core" : ["1.4"]
+    },
+    "type" : "Writer",
+    "dependencies" : ["Points"]
+}

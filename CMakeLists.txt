@@ -33,15 +33,19 @@ find_package(ManiVault COMPONENTS Core PointData ClusterData CONFIG QUIET)
 set(SOURCES
     src/CsvWriter.h
     src/CsvWriter.cpp
-    src/CsvWriter.json
+)
+
+set(AUX
+    PluginInfo.json
 )
 
 source_group( Plugin FILES ${SOURCES})
+source_group(Aux FILES ${AUX})
 
 # -----------------------------------------------------------------------------
 # CMake Target
 # -----------------------------------------------------------------------------
-add_library(${PROJECT} SHARED ${SOURCES})
+add_library(${PROJECT} SHARED ${SOURCES} ${AUX})
 
 # -----------------------------------------------------------------------------
 # Target include directories
@@ -78,10 +82,7 @@ add_custom_command(TARGET ${PROJECT} POST_BUILD
 	--prefix ${ManiVault_INSTALL_DIR}/$<CONFIGURATION>
 )
 
-set_target_properties(${PROJECT}
-    PROPERTIES
-    FOLDER WriterPlugins
-)
+mv_handle_plugin_config(${PROJECT})
 
 # -----------------------------------------------------------------------------
 # Miscellaneous

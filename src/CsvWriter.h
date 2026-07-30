@@ -49,8 +49,8 @@ class CsvWriterFactory : public WriterPluginFactory
 {
     Q_INTERFACES(mv::plugin::WriterPluginFactory mv::plugin::PluginFactory)
         Q_OBJECT
-        Q_PLUGIN_METADATA(IID   "nl.lumc.CsvWriter"
-            FILE  "CsvWriter.json")
+        Q_PLUGIN_METADATA(IID   "studio.manivault.CsvWriter"
+            FILE  "PluginInfo.json")
 
 public:
     CsvWriterFactory();
