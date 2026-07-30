@@ -8,8 +8,6 @@ using namespace mv::plugin;
 using namespace mv::gui;
 using namespace mv::util;
 
-
-
 /**
  * Csv Exporter plugin class
  *

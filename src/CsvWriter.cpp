@@ -11,10 +11,9 @@
 #include <QFile>
 #include <QTextStream>
 
-Q_PLUGIN_METADATA(IID "nl.BioVault.CsvSaverPlugin")
+Q_PLUGIN_METADATA(IID "studio.manivault.CsvSaverPlugin")
 
 using namespace mv;
-
 
 CsvWriter::CsvWriter(const PluginFactory* factory) :
     WriterPlugin(factory)
@@ -59,11 +58,6 @@ void CsvWriter::writeData()
                 d = d->getParent();
         }
     }
-   
-
-    
-    
-
     
 	if (inputDataset->getDataType() == PointType)
     {
@@ -306,15 +300,14 @@ PluginTriggerActions CsvWriterFactory::getPluginTriggerActions(const mv::Dataset
         return dynamic_cast<CsvWriter*>(plugins().requestPlugin(getKind(), { dataset }));
     };
 
+    if (datasets.count() >= 1) {
+        auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "CsvWriter", "Export dataset to CSV file", icon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
+            for (auto dataset : datasets)
+                getPluginInstance(dataset);
+            });
 
-        if (datasets.count() >= 1) {
-            auto pluginTriggerAction = new PluginTriggerAction(const_cast<CsvWriterFactory*>(this), this, "CsvWriter", "Export dataset to CSV file", icon(), [this, getPluginInstance, datasets](PluginTriggerAction& pluginTriggerAction) -> void {
-                for (auto dataset : datasets)
-                    getPluginInstance(dataset);
-                });
-
-            pluginTriggerActions << pluginTriggerAction;
-        }
+        pluginTriggerActions << pluginTriggerAction;
+    }
 
     return pluginTriggerActions;
 }
