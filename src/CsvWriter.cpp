@@ -22,17 +22,18 @@ CsvWriter::CsvWriter(const PluginFactory* factory) :
 
 void CsvWriter::writeData()
 {
-
     auto inputDataset = getInputDataset<DatasetImpl>();
     if (!inputDataset.isValid())
         return;
-    // Let the user chose the save path
-    QSettings settings(QLatin1String{ "HDPS" }, QLatin1String{ "Plugins/" } + getKind());
-    const QLatin1String directoryPathKey("directoryPath");
-    const auto directoryPath = settings.value(directoryPathKey).toString() + "/";
-    
+    // Let the user choose the save path
+    QString registryEntry = "directoryPath";
+    const auto directoryPath = getSetting(registryEntry, "").toString();
+
     QString fileName = QFileDialog::getSaveFileName(
-        nullptr, tr("Save data set"), directoryPath + inputDataset->getGuiName() + ".csv", tr("CSV file (*.csv);;All Files (*)"));
+        nullptr, 
+        tr("Save data set"), 
+        directoryPath + inputDataset->getGuiName() + ".csv",
+        tr("CSV file (*.csv);;All Files (*)"));
 
     // Only continue when the dialog has not been not canceled and the file name is non-empty.
     if (fileName.isNull() || fileName.isEmpty())
@@ -43,7 +44,7 @@ void CsvWriter::writeData()
     else
     {
         // store the directory name
-        settings.setValue(directoryPathKey, QFileInfo(fileName).absolutePath());
+        setSetting(registryEntry, QFileInfo(fileName).absolutePath());
     }
 
     QVariantList sampleNames;
